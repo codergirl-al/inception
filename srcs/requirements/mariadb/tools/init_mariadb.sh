@@ -1,7 +1,7 @@
 #!/bin/bash
 
 create_sql_file() {
-	cat > /tmp/init.sql <<EOF
+	cat << EOF > bootstrap.sql
 	FLUSH PRIVILEGES;
 	CREATE DATABASE IF NOT EXISTS \`${MYSQL_DATABASE}\`;
 	CREATE USER IF NOT EXISTS '${MYSQL_USER}'@'%' IDENTIFIED BY '${MYSQL_PASSWORD}';
@@ -10,7 +10,9 @@ create_sql_file() {
 EOF
 }
 
+
 run_bootstrap() {
+	echo "hello world"
 	mysqld --user=mysql --bootstrap < bootstrap.sql
 	rm -f bootstrap.sql
 }
