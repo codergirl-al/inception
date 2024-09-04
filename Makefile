@@ -1,24 +1,25 @@
-DOCKER_FILE := srcs/docker-compose.yml
+DC_FILE := srcs/docker-compose.yml
 
 CONTAINERS := nginx wordpress mariadb
 IMAGES := nginx wordpress mariadb
-VOLUMES:= database wordpress
+VOLUMES := database wordpress
 
 up:
 	@echo "Building and starting all containers..."
-	@docker compose -f $(DOCKER_FILE) up --build -d
+	@bash srcs/requirements/tools/make_dir.sh
+	@docker compose -f $(DC_FILE) up --build -d
 
 down:
 	@echo "Stopping and removing all containers..."
-	@docker compose -f $(DOCKER_FILE) down
+	@docker compose -f $(DC_FILE) down
 
 stop:
 	@echo "Stopping containers..."
-	@docker compose -f $(DOCKER_FILE) stop
+	@docker compose -f $(DC_FILE) stop
 
 start:
 	@echo "Starting containers..."
-	@docker compose -f $(DOCKER_FILE) start
+	@docker compose -f $(DC_FILE) start
 
 status:
 	@echo "Showing status of containers..."
@@ -49,7 +50,6 @@ reset: fclean
 	@mkdir /home/apeposhi/data/mariadb /home/apeposhi/data/wordpress
 
 help:
-	@echo "Inception project management commands"
 	@echo "Available targets:"
 	@echo "  up            - Build and start all containers"
 	@echo "  down          - Stop and remove all containers"
