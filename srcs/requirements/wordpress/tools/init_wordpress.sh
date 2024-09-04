@@ -16,9 +16,9 @@ wp config create --allow-root --force \
 
 wp core install --allow-root --url="$WORDPRESS_URL" \
 		--title="$WORDPRESS_TITLE" \
-		--admin_user="$WORDPRESS_USER" \
-		--admin_password="$WORDPRESS_PASSWORD" \
-		--admin_email="$WORDPRESS_EMAIL" \
+		--admin_user="$WORDPRESS_ADMIN_NAME" \
+		--admin_password="$WORDPRESS_ADMIN_PASS" \
+		--admin_email="$WORDPRESS_ADMIN_EMAIL" \
 		--skip-email
 
 wp user create --allow-root $WORDPRESS_USER_NAME \
