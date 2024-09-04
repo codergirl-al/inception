@@ -8,7 +8,7 @@ wp core download --allow-root
 
 wp config create --allow-root --force \
 		--url="$WORDPRESS_URL" \
-		--dbname="$WORDPRESS_DB_NAME" \
+		--dbname="$MYSQL_DATABASE" \
 		--dbuser="$WORDPRESS_DB_USER" \
 		--dbpass="$WORDPRESS_PASSWORD" \
 		--dbhost="mariadb:3306"
