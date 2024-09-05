@@ -1,25 +1,28 @@
 DC_FILE := srcs/docker-compose.yml
+DATA_DIR := /home/apeposhi/data
 
 CONTAINERS := nginx wordpress mariadb
-IMAGES := nginx wordpress mariadb
+IMAGES := $(CONTAINERS)
 VOLUMES := database wordpress
+
+DOCKER_COMPOSE := docker compose -f $(DC_FILE)
 
 up:
 	@echo "Building and starting all containers..."
 	@bash srcs/requirements/tools/make_dir.sh
-	@docker compose -f $(DC_FILE) up --build -d
+	@$(DOCKER_COMPOSE) up --build -d
 
 down:
 	@echo "Stopping and removing all containers..."
-	@docker compose -f $(DC_FILE) down
+	@$(DOCKER_COMPOSE) down
 
 stop:
 	@echo "Stopping containers..."
-	@docker compose -f $(DC_FILE) stop
+	@$(DOCKER_COMPOSE) stop
 
 start:
 	@echo "Starting containers..."
-	@docker compose -f $(DC_FILE) start
+	@$(DOCKER_COMPOSE) start
 
 status:
 	@echo "Showing status of containers..."
@@ -29,8 +32,7 @@ clean: clean-containers clean-images clean-volumes
 
 clean-containers:
 	@echo "Stopping and removing all containers..."
-	@docker stop $$(docker ps -qa) 2>/dev/null || true
-	@docker rm $$(docker ps -qa) 2>/dev/null || true
+	@docker rm -f $$(docker ps -qa) 2>/dev/null || true
 
 clean-images:
 	@echo "Removing all images..."
@@ -46,8 +48,8 @@ fclean: down clean
 
 reset: fclean
 	@echo "Resetting project data..."
-	@rm -rf /home/apeposhi/data/mariadb /home/apeposhi/data/wordpress
-	@mkdir /home/apeposhi/data/mariadb /home/apeposhi/data/wordpress
+	@rm -rf $(DATA_DIR)/mariadb $(DATA_DIR)/wordpress
+	@mkdir -p $(DATA_DIR)/mariadb $(DATA_DIR)/wordpress
 
 help:
 	@echo "Available targets:"

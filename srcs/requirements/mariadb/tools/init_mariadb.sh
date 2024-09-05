@@ -1,6 +1,6 @@
 #!/bin/bash
 
-create_sql_file() {
+sql_settings() {
 	cat << EOF > bootstrap.sql
 	FLUSH PRIVILEGES;
 	CREATE DATABASE IF NOT EXISTS \`${MYSQL_DATABASE}\`;
@@ -10,16 +10,14 @@ create_sql_file() {
 EOF
 }
 
-
-run_bootstrap() {
-	echo "hello world"
+bootstrap_start() {
 	mysqld --user=mysql --bootstrap < bootstrap.sql
 	rm -f bootstrap.sql
 }
 
 if [ ! -d "var/lib/mysql/${MYSQL_DATABASE}" ]; then
-	create_sql_file
-	run_bootstrap
+	sql_settings
+	bootstrap_start
 fi
 
 exec /usr/sbin/mysqld --datadir=/var/lib/mysql --user=mysql
